@@ -2,6 +2,7 @@ import warnings
 import json
 warnings.filterwarnings("ignore")
 from Tkinter import *
+import cv2
 
 root = Tk()
 
@@ -37,3 +38,17 @@ if __name__ == '__main__':
 	recognizer = FileRecognizer(djv)
 	song = recognizer.recognize_file("sample1/egg_dropping.mp3")
 	print "No shortcut, we recognized: %s\n" % song
+	
+	cap = cv2.VideoCapture('sample1/egg_dropping.mp3')
+	
+	while(cap.isOpened()):
+    		ret, frame = cap.read()
+
+    		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    		cv2.imshow('frame',gray)
+    		if cv2.waitKey(1) & 0xFF == ord('q'):
+        		break
+
+		cap.release()
+		cv2.destroyAllWindows()
